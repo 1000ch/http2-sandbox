@@ -3,12 +3,12 @@ import { NavLink } from 'fluxible-router';
 
 class Nav extends React.Component {
   static propTypes = {
-    currentRoute : React.PropTypes.string,
+    currentRoute : React.PropTypes.object,
     links        : React.PropTypes.object
   };
 
   static defaultProps = {
-    currentRoute : '',
+    currentRoute : {},
     links        : {}
   };
 
@@ -41,10 +41,5 @@ class Nav extends React.Component {
     );
   }
 }
-
-Nav.defaultProps = {
-  selected : null,
-  links    : {}
-};
 
 export default Nav;

@@ -6,7 +6,7 @@ import { createElementWithContext } from 'fluxible-addons-react';
 import app from './app';
 
 const debugClient = debug('isumi-web');
-const dehydratedState = window.__CONTEXT__; // Sent from the server
+const dehydratedState = window.__STATE__; // Sent from the server
 
 window.React = ReactDOM; // For chrome dev tool support
 
@@ -23,12 +23,11 @@ app.rehydrate(dehydratedState, (error, context) => {
   }
 
   window.context = context;
-  const mountNode = document.getElementById('app');
 
   debugClient('React Rendering');
   ReactDOM.render(
     createElementWithContext(context),
-    mountNode,
+    document.getElementById('app'),
     () => debugClient('React Rendered')
   );
 });

@@ -15,13 +15,14 @@ import debugLib from 'debug';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import app from './app';
-import HTML from './components/HTML';
+import Document from './components/Document';
 import { createElementWithContext } from 'fluxible-addons-react';
 
 const debug = debugLib('isumi-web');
 
 const server = express();
-server.use('/public', express.static(path.join(__dirname, '/build')));
+server.use('/js', express.static(path.join(__dirname, '..', '/js')));
+server.use('/css', express.static(path.join(__dirname, '..', '/css')));
 server.use(compression());
 server.use(bodyParser.json());
 
@@ -42,17 +43,17 @@ server.use((request, response, next) => {
       return;
     }
 
-    const file = process.env.NODE_ENV === 'production' ? 'main.min.js' : 'main.js';
-    const exposed = 'window.__CONTEXT__=' + serialize(app.dehydrate(context)) + ';';
+    const appFile = process.env.NODE_ENV === 'production' ? 'app.min.js' : 'app.js';
+    const exposed = `window.__STATE__=${serialize(app.dehydrate(context))};`;
     const html = ReactDOM.renderToString(createElementWithContext(context));
 
-    const htmlElement = React.createElement(HTML, {
-      file    : file,
+    const documentElement = React.createElement(Document, {
+      appFile : appFile,
       context : context.getComponentContext(),
       state   : exposed,
       html    : html
     });
-    const markup = ReactDOM.renderToStaticMarkup(htmlElement);
+    const markup = ReactDOM.renderToStaticMarkup(documentElement);
 
     debug('Sending markup');
     response.type('html');
