@@ -23,7 +23,7 @@ class Document extends React.Component {
     const html = this.props.html;
 
     return (
-      <html>
+      <html lang="ja">
         <Head pageTitle={pageTitle} />
         <body>
           <div id="app" className="Container" dangerouslySetInnerHTML={{ __html : html }}></div>

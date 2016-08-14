@@ -62,8 +62,6 @@ server.use((request, response, next) => {
   });
 });
 
-const port = process.env.PORT || 3000;
-server.listen(port);
-console.log('Application listening on port ' + port);
+server.listen(process.env.PORT || 3000);
 
 export default server;
